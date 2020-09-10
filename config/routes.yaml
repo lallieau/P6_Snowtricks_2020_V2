@@ -5,3 +5,23 @@
 homepage:
   path: /
   controller: App\Controller\BlogController::index
+
+figure_add:
+  path: /add
+  controller: App\Controller\BlogController::add
+
+figure_show:
+  path: /show/{url}
+  controller: App\Controller\BlogController::show
+
+figure_edit:
+  path: /edit/{id}
+  controller: App\Controller\BlogController::edit
+  requirements:
+    id: '\d+'
+
+figure_remove:
+  path: /remove/{id}
+  controller: App\Controller\BlogController::remove
+  requirements:
+    id: '\d+'
