@@ -49,6 +49,16 @@ class User implements UserInterface
      */
     private $photo;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="user")
+     */
+    private $articles;
+
     public function getId(): ?int
     {
         return $this->id;
