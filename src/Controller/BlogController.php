@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class BlogController extends AbstractController
 {
@@ -14,12 +15,25 @@ class BlogController extends AbstractController
         return $this->render('blog/index.html.twig');
     }
 
-    public function add()
+    public function add(Request $request)
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
 
-        return $this->render('blog/add.html.twig', [
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $article->setCreatedAt(new \DateTime());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            return new Response('L\'article a bien été enregistrer.');
+        }
+
+        return $this->render('blog/add.html.twig',[
             'form' => $form->createView()
         ]);
     }
