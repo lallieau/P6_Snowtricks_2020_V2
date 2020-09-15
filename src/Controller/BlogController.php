@@ -45,10 +45,23 @@ class BlogController extends AbstractController
         ]);
     }
 
-    public function edit($id)
+    public function edit(Article $article, Request $request)
     {
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article->setUpdateDate(new \DateTime());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            return new Response('L\'article a bien été modifié.');
+        }
         return $this->render('blog/edit.html.twig', [
-            'slug' => $id
+            'article' => $article,
+            'form'=> $form->createView()
         ]);
     }
 
