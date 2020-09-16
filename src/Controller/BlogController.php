@@ -8,6 +8,7 @@ use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class BlogController extends AbstractController
 {
@@ -20,6 +21,9 @@ class BlogController extends AbstractController
 
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     public function add(Request $request)
     {
         $article = new Article();
@@ -50,6 +54,9 @@ class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     public function edit(Article $article, Request $request)
     {
         $form = $this->createForm(ArticleType::class, $article);
@@ -70,11 +77,17 @@ class BlogController extends AbstractController
         ]);
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     public function remove($id)
     {
         return new Response('<h1>Supprimer l\'article ' . $id . '</h1>');
     }
 
+    /**
+     * @IsGranted("ROLE_ADMIN")
+     */
     public function admin()
     {
         $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(
@@ -84,7 +97,7 @@ class BlogController extends AbstractController
 
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        return $this->render('admin/index.html.twig',[
+        return $this->render('admin/admin.html.twig',[
             'articles' => $articles,
             'users' => $users
         ]);

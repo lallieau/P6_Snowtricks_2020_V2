@@ -58,7 +58,7 @@
                                 <td>{{ user.name }}</td>
                                 <td>
                                     <span class="badge blue">
-                                        admin.
+                                        {% if 'ROLE_USER' in user.roles %} user {% endif %}
                                     </span>
                                 </td>
                                 <td>
