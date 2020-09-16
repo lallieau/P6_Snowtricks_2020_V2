@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -72,5 +73,20 @@ class BlogController extends AbstractController
     public function remove($id)
     {
         return new Response('<h1>Supprimer l\'article ' . $id . '</h1>');
+    }
+
+    public function admin()
+    {
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(
+            [],
+            ['updateDate' => 'DESC']
+        );
+
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+
+        return $this->render('admin/index.html.twig',[
+            'articles' => $articles,
+            'users' => $users
+        ]);
     }
 }
