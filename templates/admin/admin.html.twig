@@ -57,9 +57,16 @@
                                 <td>{{ user.firstname }}</td>
                                 <td>{{ user.name }}</td>
                                 <td>
+                                    {% if 'ROLE_USER' in user.roles %}
                                     <span class="badge blue">
-                                        {% if 'ROLE_USER' in user.roles %} user {% endif %}
+                                         user
                                     </span>
+                                    {% endif %}
+                                    {% if 'ROLE_ADMIN' in user.roles %}
+                                    <span class="badge green">
+                                         admin
+                                    </span>
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <a href=""><i class="material-icons red-text">delete</i></a>
