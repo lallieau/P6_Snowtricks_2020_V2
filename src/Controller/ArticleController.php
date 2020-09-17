@@ -8,14 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-class BlogController extends AbstractController
+class ArticleController extends AbstractController
 {
     public function index()
     {
         $repository = $this->getDoctrine()->getRepository(Article::class);
 
         $articles = $repository->findAll();
-        return $this->render('blog/index.html.twig', ['articles' => $articles]);
+        return $this->render('article/index.html.twig', ['articles' => $articles]);
 
     }
 
@@ -30,6 +30,7 @@ class BlogController extends AbstractController
         {
             $article->setCreatedAt(new \DateTime());
 
+            // $em = entity manager
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
@@ -37,14 +38,14 @@ class BlogController extends AbstractController
             return new Response('L\'article a bien été enregistrer.');
         }
 
-        return $this->render('blog/add.html.twig',[
+        return $this->render('article/add.html.twig',[
             'form' => $form->createView()
         ]);
     }
 
     public function show(Article $article)
     {
-        return $this->render('blog/show.html.twig', [
+        return $this->render('article/show.html.twig', [
             'article' => $article
         ]);
     }
@@ -63,7 +64,7 @@ class BlogController extends AbstractController
 
             return new Response('L\'article a bien été modifié.');
         }
-        return $this->render('blog/edit.html.twig', [
+        return $this->render('article/edit.html.twig', [
             'article' => $article,
             'form'=> $form->createView()
         ]);
