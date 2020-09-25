@@ -7,12 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
- * @Vich\Uploadable
  */
 class Article
 {
@@ -52,15 +49,8 @@ class Article
 
     /**
      * @ORM\OneToMany(targetEntity="Image", mappedBy="article")
-     * @var string
      */
     private $images;
-
-    /**
-     * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
-     * @var File
-     */
-    private $imageFile;
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="article")
@@ -192,18 +182,6 @@ class Article
         }
 
         return $this;
-    }
-
-    public function setImageFile(File $image = null)
-    {
-        $this->imageFile = $image;
-
-        return $this;
-    }
-
-    public function getImageFile()
-    {
-        return $this->imageFile;
     }
 
     /**

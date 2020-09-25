@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -20,6 +21,7 @@ class Image
     /**
      * @ORM\Column(type="string", length=255)
      */
+
     private $name;
 
     /**
@@ -54,5 +56,20 @@ class Image
         $this->article = $article;
 
         return $this;
+    }
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        if ($image)
+            $this->updatedAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 }
