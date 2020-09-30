@@ -39,7 +39,7 @@ class BlogController extends AbstractController
             if($images)
             {
                 $images = $fileUploader->upload($images);
-                $article->setImage($images);
+                $article->addImage($images);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -66,9 +66,11 @@ class BlogController extends AbstractController
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $article->setUpdateDate(new \DateTime());
+            $article->setImage(
+                new File($this->getParameter('images_directory').'/'.$article->getImages())
+            );
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
