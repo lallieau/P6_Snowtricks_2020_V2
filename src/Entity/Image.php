@@ -58,18 +58,4 @@ class Image
         return $this;
     }
 
-    public function setImageFile(File $image = null)
-    {
-        $this->imageFile = $image;
-
-        if ($image)
-            $this->updatedAt = new \DateTimeImmutable();
-
-        return $this;
-    }
-
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
 }

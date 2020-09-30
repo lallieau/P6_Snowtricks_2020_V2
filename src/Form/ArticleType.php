@@ -21,10 +21,11 @@ class ArticleType extends AbstractType
 
         $builder
             ->add('images', CollectionType::class, [
-               'entry_type' => ImageType::class,
-               'entry_options' => ['label' => false],
+                'entry_type' => ImageType::class,
+                'entry_options' => ['label' => false],
                 'allow_add' => true,
             ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

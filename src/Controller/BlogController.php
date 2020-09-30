@@ -4,9 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Service\FileUploader;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\File;
+
+
 
 class BlogController extends AbstractController
 {
@@ -19,16 +25,22 @@ class BlogController extends AbstractController
 
     }
 
-    public function add(Request $request)
+    public function add(Request $request, FileUploader $fileUploader)
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
             $article->setCreatedAt(new \DateTime());
+            $images = $form->get('images')->getData();
+
+            if($images)
+            {
+                $images = $fileUploader->upload($images);
+                $article->setImage($images);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
@@ -54,7 +66,8 @@ class BlogController extends AbstractController
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $article->setUpdateDate(new \DateTime());
 
             $em = $this->getDoctrine()->getManager();
