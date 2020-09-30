@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Image;
 use App\Form\ArticleType;
 use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -36,9 +37,11 @@ class BlogController extends AbstractController
             $article->setCreatedAt(new \DateTime());
             $images = $form->get('images')->getData();
 
-            if($images)
+            foreach($images as $image)
             {
-                $images = $fileUploader->upload($images);
+                $image = $fileUploader->upload($image);
+                $img = new Image();
+                $img->setName($image);
                 $article->addImage($images);
             }
 

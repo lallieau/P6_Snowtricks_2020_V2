@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ArticleType extends AbstractType
@@ -17,14 +18,14 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', TextType::class, ['required' => false])
             ->add('content', TextareaType::class, ['required' => false])
+            ->add('images', FileType::class,[
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false
+            ])
             ;
 
-        $builder
-            ->add('images', CollectionType::class, [
-                'entry_type' => ImageType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-            ]);
 
     }
 
