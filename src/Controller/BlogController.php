@@ -39,10 +39,11 @@ class BlogController extends AbstractController
 
             foreach($images as $image)
             {
+
                 $image = $fileUploader->upload($image);
-                $img = new Image();
-                $img->setName($image);
-                $article->addImage($images);
+                //$img = new Image();
+                //$img->setName($image);
+               // $article->addImage($images);
             }
 
             $em = $this->getDoctrine()->getManager();

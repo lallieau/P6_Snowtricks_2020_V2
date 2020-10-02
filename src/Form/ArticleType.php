@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Image;
+use App\Form\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,11 +20,12 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', TextType::class, ['required' => false])
             ->add('content', TextareaType::class, ['required' => false])
-            ->add('images', FileType::class,[
-                'label' => false,
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false
+            ->add('images', CollectionType::class,[
+                'entry_type' => ImageType::class,
+                'allow_file_upload' => true,
+                'prototype'	=> true,
+                'required' => false,
+                'allow_add' => true,
             ])
             ;
 

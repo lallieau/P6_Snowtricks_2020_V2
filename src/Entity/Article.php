@@ -48,7 +48,7 @@ class Article
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="article", cascade={"persist"}, orphanRemoval=true)
      */
     private $images;
 
