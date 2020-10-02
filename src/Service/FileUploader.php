@@ -13,6 +13,10 @@ class FileUploader
         $this->targetDirectory = $targetDirectory;
     }
 
+    /** enregistrer le fichier dans le dossier uploads
+     * @param UploadedFile $file
+     * @return string le nom définitif du fichier
+     */
     public function upload(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
