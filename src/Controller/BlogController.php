@@ -4,14 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Image;
+use App\Entity\Video;
 use App\Form\ArticleType;
 use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\File;
 
 
 
@@ -36,6 +35,7 @@ class BlogController extends AbstractController
         {
             $article->setCreatedAt(new \DateTime());
             $images = $form->get('images')->getData();
+            $videos = $form->get('videos')->getData();
 
             foreach($images as $image)
             {
@@ -43,6 +43,11 @@ class BlogController extends AbstractController
                 $img = new Image();
                 $img->setName($image);
                 $article->addImage($img);
+            }
+
+            foreach($videos as $video)
+            {
+                $article->addVideo($video);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -53,6 +58,7 @@ class BlogController extends AbstractController
         }
 
         return $this->render('blog/add.html.twig',[
+            'article' => $article,
             'form' => $form->createView()
         ]);
     }
@@ -64,16 +70,30 @@ class BlogController extends AbstractController
         ]);
     }
 
-    public function edit(Article $article, Request $request)
+    public function edit(Article $article, Request $request, FileUploader $fileUploader)
     {
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $article->setUpdateDate(new \DateTime());
-            $article->setImage(
-                new File($this->getParameter('images_directory').'/'.$article->getImages())
-            );
+            $images = $form->get('images')->getData();
+            $videos = $form->get('videos')->getData();
+
+            foreach($images as $image)
+            {
+                $image = $fileUploader->upload($image['file']);
+                $img = new Image();
+                $img->setName($image);
+                $article->addImage($img);
+            }
+
+            foreach($videos as $video)
+            {
+                $article->addVideo($video);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
@@ -87,8 +107,31 @@ class BlogController extends AbstractController
         ]);
     }
 
+    public function removeImage(Image $image)
+    {
+        $path = $this->getParameter('images_directory').'/'.$image->getName();
+        unlink($path);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($image);
+        $em->flush();
+
+        return new Response('<h1>Image supprimée</h1>');
+    }
+
+    public function removeVideo(Video $video)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($video);
+        $em->flush();
+
+        return new Response('<h1>Vidéo supprimée</h1>');
+    }
+
     public function remove($id)
     {
+
         return new Response('<h1>Supprimer l\'article ' . $id . '</h1>');
     }
 }
+

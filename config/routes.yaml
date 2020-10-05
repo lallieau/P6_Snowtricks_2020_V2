@@ -25,3 +25,15 @@ article_remove:
   controller: App\Controller\BlogController::remove
   requirements:
     id: '\d+'
+
+article_remove_image:
+  path: /remove/image/{id}
+  controller: App\Controller\BlogController::removeImage
+  requirements:
+    id: '\d+'
+
+article_remove_video:
+  path: /remove/video/{id}
+  controller: App\Controller\BlogController::removeVideo
+  requirements:
+    id: '\d+'

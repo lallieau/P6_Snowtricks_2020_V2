@@ -43,7 +43,7 @@ class Article
     private $updateDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="Video", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="Video", mappedBy="article", cascade={"persist"}, orphanRemoval=true)
      */
     private $videos;
 
@@ -142,15 +142,7 @@ class Article
 
     public function removeVideo(Video $video): self
     {
-        if ($this->videos->contains($video)) {
-            $this->videos->removeElement($video);
-            // set the owning side to null (unless already changed)
-            if ($video->getArticle() === $this) {
-                $video->setArticle(null);
-            }
-        }
-
-        return $this;
+        $this->videos->removeElement($video);
     }
 
     /**

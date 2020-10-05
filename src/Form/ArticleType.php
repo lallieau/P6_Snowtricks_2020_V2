@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Article;
 use App\Entity\Image;
 use App\Form\ImageType;
+use App\Form\VideoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,10 +26,18 @@ class ArticleType extends AbstractType
                 'prototype'	=> true,
                 'required' => false,
                 'allow_add' => true,
+                'allow_delete'=> true,
+                'mapped' => false,
+            ])
+            ->add('videos', CollectionType::class,[
+                'entry_type' => VideoType::class,
+                'prototype'	=> true,
+                'required' => false,
+                'allow_add' => true,
+                'allow_delete'=> true,
                 'mapped' => false,
             ])
             ;
-
 
     }
 
