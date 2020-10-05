@@ -116,7 +116,7 @@ class BlogController extends AbstractController
         $em->remove($image);
         $em->flush();
 
-        return new Response('<h1>Image supprimée</h1>');
+        return $this->render('blog/index.html.twig');
     }
 
     public function removeVideo(Video $video)
@@ -125,7 +125,7 @@ class BlogController extends AbstractController
         $em->remove($video);
         $em->flush();
 
-        return new Response('<h1>Vidéo supprimée</h1>');
+        return $this->render('blog/index.html.twig');
     }
 
     public function remove($id)
