@@ -17,8 +17,7 @@
     {% for image in article.images %}
         <img src="{{ asset('/uploads/'~image.name) }}" alt="" width="150">
         <p>{{ image.name }}</p>
-        <a href="{{ path('article_remove_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
-    {% endfor %}
+       {% endfor %}
 </div>
 
 <div class="input-field col s12 m12 l12">
@@ -26,7 +25,6 @@
     {% for video in article.videos %}
         <iframe src="{{ video.link }}"></iframe>
         <p>{{ video.title }}</p>
-        <a href="{{ path('article_remove_video', {id: video.id})}}" data-delete>Supprimer</a>
     {% endfor %}
 </div>
 
@@ -68,6 +66,7 @@
             // add a new tag form (see next code block)
             addImageForm($collectionHolder, $newLinkLi);
         });
+
     });
 
     function addImageForm($collectionHolder, $newLinkLi) {
@@ -93,8 +92,19 @@
         // Display the form in the page in an li, before the "Add a tag" link li
         var $newFormLi = $('<div></div>').append(newForm);
         $newLinkLi.before($newFormLi);
+
+        addImageFormDeleteLink($newFormLi);
     }
 
+    function addImageFormDeleteLink($newFormLi) {
+        var $removeFormButton = $('<button type="button">Supprimer cette image</button>');
+        $newFormLi.append($removeFormButton);
+
+        $removeFormButton.on('click', function(e) {
+            // remove the li for the tag form
+            $newFormLi.remove();
+        });
+    }
 
 </script>
 <script>

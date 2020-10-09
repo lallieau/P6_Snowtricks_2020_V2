@@ -84,6 +84,15 @@ class BlogController extends AbstractController
 
             foreach($images as $image)
             {
+                if(false === $article->getImages()->contains($images))
+                {
+                    $path = $this->getParameter('images_directory').'/'.$image->getName();
+                    unlink($path);
+                    $article->getImages()->removeElement($images);
+
+                    $em->persist($article);
+                }
+
                 $image = $fileUploader->upload($image['file']);
                 $img = new Image();
                 $img->setName($image);
@@ -105,27 +114,6 @@ class BlogController extends AbstractController
             'article' => $article,
             'form'=> $form->createView()
         ]);
-    }
-
-    public function removeImage(Image $image)
-    {
-        $path = $this->getParameter('images_directory').'/'.$image->getName();
-        unlink($path);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($image);
-        $em->flush();
-
-        return $this->render('blog/index.html.twig');
-    }
-
-    public function removeVideo(Video $video)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($video);
-        $em->flush();
-
-        return $this->render('blog/index.html.twig');
     }
 
     public function remove(Article $article)
