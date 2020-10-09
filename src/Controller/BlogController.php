@@ -128,10 +128,13 @@ class BlogController extends AbstractController
         return $this->render('blog/index.html.twig');
     }
 
-    public function remove($id)
+    public function remove(Article $article)
     {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($article);
+        $em->flush();
 
-        return new Response('<h1>Supprimer l\'article ' . $id . '</h1>');
+        return new Response('L\'article a bien été supprimer.');
     }
 }
 
