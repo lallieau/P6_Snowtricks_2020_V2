@@ -17,7 +17,8 @@
     {% for image in article.images %}
         <img src="{{ asset('/uploads/'~image.name) }}" alt="" width="150">
         <p>{{ image.name }}</p>
-       {% endfor %}
+        {#<a href="{{ path('article_remove_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>#}
+    {% endfor %}
 </div>
 
 <div class="input-field col s12 m12 l12">
@@ -25,10 +26,11 @@
     {% for video in article.videos %}
         <iframe src="{{ video.link }}"></iframe>
         <p>{{ video.title }}</p>
+        <a href="{{ path('article_remove_video', {id: video.id})}}" data-delete>Supprimer</a>
     {% endfor %}
 </div>
 
-<a href="{{ path('article_remove', {id: article.id})}}" data-delete>Supprimer l'article</a>
+{#<a href="{{ path('article_remove', {id: article.id})}}" data-delete>Supprimer l'article</a>#}
 
 
 
@@ -96,13 +98,13 @@
         addImageFormDeleteLink($newFormLi);
     }
 
-    function addImageFormDeleteLink($newFormLi) {
-        var $removeFormButton = $('<button type="button">Supprimer cette image</button>');
-        $newFormLi.append($removeFormButton);
+    function addImageFormDeleteLink($tagFormLi) {
+        var $removeFormButton = $('<button type="button">Supprimer l\'image</button>');
+        $tagFormLi.append($removeFormButton);
 
         $removeFormButton.on('click', function(e) {
             // remove the li for the tag form
-            $newFormLi.remove();
+            $tagFormLi.remove();
         });
     }
 
@@ -158,3 +160,4 @@
 
 
 </script>
+
