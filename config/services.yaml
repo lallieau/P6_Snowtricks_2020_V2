@@ -34,3 +34,7 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%images_directory%'
+
+    App\EventListener\ImageRemoveListener:
+        tags:
+            - {name: doctrine.event_listener, event: preRemove}

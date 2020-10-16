@@ -27,7 +27,7 @@ class ArticleType extends AbstractType
                 'required' => false,
                 'allow_add' => true,
                 'allow_delete'=> true,
-                'mapped' => false,
+                'by_reference' => false,
             ])
             ->add('videos', CollectionType::class,[
                 'entry_type' => VideoType::class,

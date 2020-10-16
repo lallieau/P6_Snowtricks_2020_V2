@@ -1,0 +1,8 @@
+{% block _article_images_entry_row %}
+    <div class="entry">
+        {% if value %}
+            <img src="{{ asset('/uploads/'~value.name) }}" alt="" width="150">
+        {% endif %}
+        {{ form_row(form.name) }}
+    </div>
+{% endblock %}

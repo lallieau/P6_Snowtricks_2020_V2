@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BlogController extends AbstractController
 {
-    public function index()
+    public function index(): Response
     {
         $repository = $this->getDoctrine()->getRepository(Article::class);
 
@@ -82,7 +82,7 @@ class BlogController extends AbstractController
             $images = $form->get('images')->getData();
             $videos = $form->get('videos')->getData();
 
-            foreach($images as $image)
+            /*foreach($images as $image)
             {
                 if(false === $article->getImages()->contains($images))
                 {
@@ -90,20 +90,13 @@ class BlogController extends AbstractController
                     unlink($path);
                     $article->getImages()->removeElement($images);
 
-                    $em->persist($article);
                 }
-
-                $image = $fileUploader->upload($image['file']);
-                $img = new Image();
-                $img->setName($image);
-                $article->addImage($img);
-            }
+            }*/
 
             foreach($videos as $video)
             {
                 $article->addVideo($video);
             }
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();

@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader
@@ -11,6 +12,11 @@ class FileUploader
     public function __construct($targetDirectory)
     {
         $this->targetDirectory = $targetDirectory;
+    }
+
+    public function getUploadedFile(string $filename): File
+    {
+        return new File($this->targetDirectory.'/'.$filename);
     }
 
     /** enregistrer le fichier dans le dossier uploads
@@ -35,5 +41,10 @@ class FileUploader
     public function getTargetDirectory()
     {
         return $this->targetDirectory;
+    }
+
+    public function removeUploadedFile($fileName)
+    {
+        unlink($this->targetDirectory.'/'.$fileName);
     }
 }
