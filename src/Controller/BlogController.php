@@ -34,16 +34,7 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $article->setCreatedAt(new \DateTime());
-            $images = $form->get('images')->getData();
             $videos = $form->get('videos')->getData();
-
-            foreach($images as $image)
-            {
-                $image = $fileUploader->upload($image['file']);
-                $img = new Image();
-                $img->setName($image);
-                $article->addImage($img);
-            }
 
             foreach($videos as $video)
             {
@@ -79,19 +70,7 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $article->setUpdateDate(new \DateTime());
-            $images = $form->get('images')->getData();
             $videos = $form->get('videos')->getData();
-
-            /*foreach($images as $image)
-            {
-                if(false === $article->getImages()->contains($images))
-                {
-                    $path = $this->getParameter('images_directory').'/'.$image->getName();
-                    unlink($path);
-                    $article->getImages()->removeElement($images);
-
-                }
-            }*/
 
             foreach($videos as $video)
             {
