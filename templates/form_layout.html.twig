@@ -6,3 +6,11 @@
         {{ form_row(form.name) }}
     </div>
 {% endblock %}
+{% block _article_videos_row %}
+    <div class="entry-video">
+        {% if value %}
+        <iframe src="{{ value.link }}"></iframe>
+        <p>{{ video.title }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

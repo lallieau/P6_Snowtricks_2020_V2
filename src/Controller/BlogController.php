@@ -69,6 +69,7 @@ class BlogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $em = $this->getDoctrine()->getManager();
             $article->setUpdateDate(new \DateTime());
             $videos = $form->get('videos')->getData();
 
@@ -76,6 +77,13 @@ class BlogController extends AbstractController
             {
                 $article->addVideo($video);
             }
+            foreach ($videos as $video) {
+                if (false === $article->getVideos()->contains($video)) {
+                    $video->getArticle()->removeElement($article);
+                    $em->persist($video);
+                }
+            }
+            dump($form);
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();

@@ -18,11 +18,6 @@
 
 <div class="input-field col s12 m12 l12">
     {{ form_row(form.videos) }}
-    {% for video in article.videos %}
-        <iframe src="{{ video.link }}"></iframe>
-        <p>{{ video.title }}</p>
-        <a href="{{ path('article_remove_video', {id: video.id})}}" data-delete>Supprimer</a>
-    {% endfor %}
 </div>
 
 {#<a href="{{ path('article_remove', {id: article.id})}}" data-delete>Supprimer l'article</a>#}
@@ -133,7 +128,20 @@
         // Display the form in the page in an li, before the "Add a tag" link li
         var $newFormLi = $('<div></div>').append(newForm);
         $newLinkLi.before($newFormLi);
+
+        addRemoveBtn($newFormLi.get(0));
     }
+
+    function addRemoveBtn(entry) {
+        var removeBtn = document.createElement('span');
+        removeBtn.classList.add('fa','fa-remove');
+        removeBtn.addEventListener('click', function (e) {
+            entry.remove();
+        });
+        entry.appendChild(removeBtn);
+    }
+    var entries = document.getElementsByClassName('entry-video');
+    Array.prototype.forEach.call(entries, addRemoveBtn);
 
 
 
