@@ -16,8 +16,14 @@
     {{ form_row(form.images) }}
 </div>
 
-<div class="input-field col s12 m12 l12">
+<div id="id" class="input-field col s12 m12 l12">
     {{ form_row(form.videos) }}
+    {% if article.videos is not empty %}
+        {% for video in article.videos %}
+             <iframe src="{{ video.link }}"></iframe>
+             <span class="fa fa-remove"></span>
+        {% endfor %}
+    {% endif %}
 </div>
 
 {#<a href="{{ path('article_remove', {id: article.id})}}" data-delete>Supprimer l'article</a>#}
@@ -133,15 +139,16 @@
     }
 
     function addRemoveBtn(entry) {
-        var removeBtn = document.createElement('span');
-        removeBtn.classList.add('fa','fa-remove');
+        var removeBtn = $('span.fa.fa-remove');
+
         removeBtn.addEventListener('click', function (e) {
             entry.remove();
         });
         entry.appendChild(removeBtn);
+        console.log(entry);
     }
-    var entries = document.getElementsByClassName('entry-video');
-    Array.prototype.forEach.call(entries, addRemoveBtn);
+    //var entries = document.getElementsByClassName('entry-video');
+    //Array.prototype.forEach.call(entries, addRemoveBtn);
 
 
 

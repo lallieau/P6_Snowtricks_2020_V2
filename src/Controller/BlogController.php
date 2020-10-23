@@ -69,10 +69,11 @@ class BlogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+
             $em = $this->getDoctrine()->getManager();
             $article->setUpdateDate(new \DateTime());
             $videos = $form->get('videos')->getData();
-
+            dump($videos);
             foreach($videos as $video)
             {
                 $article->addVideo($video);
